@@ -1,5 +1,23 @@
 # 1: Commands to run to be able to setup Cassandra
 
+> **Note:** This worked.
+
+```sh
+docker pull cassandra:latest
+docker network create cassandra
+docker run --rm -d --name cassandra --hostname cassandra --network cassandra cassandra
+```
+
+```sh
+docker cp test-setup/data.cql cassandra:/data.cql
+docker exec -it cassandra cqlsh -f /data.cql
+docker exec -it cassandra cqlsh
+```
+
+# 2: Commands to run to be able to setup Cassandra
+
+> **Note:** We did not get this setup to work.
+
 Based on the given link: [Cassandra Quickstart](https://cassandra.apache.org/_/quickstart.html)
 
 ### Setup
@@ -46,12 +64,4 @@ SELECT * FROM store.shopping_cart;
 
 ```cql
 INSERT INTO store.shopping_cart (userid, item_count) VALUES ('4567', 20);
-```
-
-# 2: Commands to run to be able to setup Cassandra
-
-```sh
-docker cp test-setup/data.cql cassandra:/data.cql
-docker exec -it cassandra cqlsh -f /data.cql
-docker exec -it cassandra cqlsh
 ```
