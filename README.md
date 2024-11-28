@@ -1,3 +1,3 @@
-# Columnar Database Using Covid Dataset
+# Columnar Database: Cassandra
 
 In this repository, we use the columnar database Cassandra on a covid dataset to be able to ...
