@@ -1,4 +1,4 @@
-# Columnar Database Using Apache Cassandra
+# Columnar Database: Cassandra
 
 In this repository, we use the columnar database Apache Cassandra on a COVID dataset to extract and compare the performance of different queries.
 
