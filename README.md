@@ -8,6 +8,14 @@ Cassandra is a NoSQL column-oriented database, ideal for horizontal scalability.
 
 The [test-setup](./test-setup) folder allows you to set up a small `.cql` database and inspect it.
 
+It can either be set up with Docker or using the tarball from the official Cassandra website. The Docker setup is explained in the above directory, but for the tarball setup, you need to export the following in the `.zshrc` or `bash_profile` on a Mac:
+
+```sh
+export=CASSANDRA_HOME=<path_to_cassandra_root_folder>
+export PATH=$PATH:CASSANDRA_HOME/bin
+export JAVA_HOME=<path_to_jdk_root_folder> # most likely already there
+```
+
 ## COVID Dataset
 
 The dataset used can be found on [Kaggle](https://www.kaggle.com/datasets/gauravduttakiit/covid-19).
@@ -15,3 +23,4 @@ The dataset used can be found on [Kaggle](https://www.kaggle.com/datasets/gaurav
 ## Environments
 
 The Cassandra Query Language (CQL) can be run from either the terminal, VSCode, or other external DB software providers. We use a mix of the two mentioned, but also RazorSQL, which has native support for Cassandra.
+
