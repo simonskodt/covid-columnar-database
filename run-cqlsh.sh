@@ -19,7 +19,7 @@ while getopts "ta" opt; do
 done
 
 execute_cql() {
-    docker exec -it cassandra cqlsh -f /schema.cql > /dev/null 2>&1
+    docker exec -it cassandra cqlsh -f /schema.cql 2>&1 # > /dev/null 
 }
 
 execute_remaining_cql() {
@@ -37,8 +37,8 @@ execute_remaining_cql() {
         FROM '/countries-aggregated.csv' WITH HEADER = TRUE;"
 
         docker exec -it cassandra cqlsh -e "
-        COPY covid.total_confirmed_by_country (country, confirmed) 
-        FROM '/countries-aggregated.csv' WITH HEADER = TRUE;"
+        COPY covid.total_confirmed_by_country (country, confirmed, date) 
+        FROM '/countries-aggregated-filtered.csv' WITH HEADER = TRUE;"
     fi
 
     # Staring interactive session in terminal
