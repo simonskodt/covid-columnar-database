@@ -11,3 +11,13 @@ CREATE TABLE IF NOT EXISTS covid.countries_aggregated (
     recovered INT,
     deaths INT
 );
+
+CREATE TABLE covid.countries_aggregated_by_country (
+    id UUID,
+    country TEXT,
+    date DATE,
+    confirmed INT,
+    recovered INT,
+    deaths INT,
+    PRIMARY KEY (country, date)
+);
