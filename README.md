@@ -24,6 +24,13 @@ export JAVA_HOME=<path_to_jdk_root_folder> # most likely already there
 
 We found the Docker setup is the easiest to configure for M1-M4 Macs. After executing `docker pull cassandra:latest`, three shell scripts: `run.sh`, `run-db-in-shell.sh`, and `stop.sh` orchestrate the Docker commands to run the Cassandra container, start an interactive CQL session in the terminal, and when finished, stop and remove the Docker container and network.
 
+The `run.sh` and `run-db-in-shell.sh` script run the covid `.cql` file by default. To run the test case instead, add the `-t` flag to the command.
+
+```sh
+sh run.sh              # default covid case
+sh run.sh -t           # run the test setup mode
+```
+
 ## Environments
 
 The Cassandra Query Language (CQL) can be run from either the terminal, VSCode, or other external DB software providers. We use a mix of the two mentioned, but also RazorSQL, which has native support for Cassandra.
