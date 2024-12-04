@@ -32,7 +32,7 @@ fi
 if [ "$use_test_file" = true ]; then
     file_path="test-setup/test.cql"
 else
-    file_path="real-time-covid-data/covid.cql"
+    file_path="real-time-covid-data/schema.cql"
 fi
 
 csv_file="real-time-covid-data/covid-data/countries-aggregated-with-uuid.csv"
@@ -53,7 +53,7 @@ fi
 
 # Copy file into container
 echo "\033[1;32m\nDOCKER NETWORK AND CONTAINER READY\033[0m \n\n\033[1mCopying files into container...\033[0m"
-docker cp "$file_path" cassandra:/data.cql
+docker cp "$file_path" cassandra:/schema.cql
 docker cp "$csv_file" cassandra:/countries-aggregated-with-uuid.csv
 
-echo "\033[1;32m\nSUCCESSFUL COPY\033[0m \n\033[1m⏭️  Ready to proceed with run-cqlsh script...\033[1m"
+echo "\033[1;32m\nSUCCESSFUL COPY\033[0m \n\n\033[1m⏭️  Ready to proceed with run-cqlsh script...\033[1m"
