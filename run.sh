@@ -54,5 +54,6 @@ echo "\033[1;32m\nDOCKER NETWORK AND CONTAINER READY\033[0m \n\n\033[1mCopying f
 docker cp "$file_path" cassandra:/schema.cql
 docker cp "$csv_file1" cassandra:/countries-aggregated.csv
 docker cp "$csv_file2" cassandra:/countries-aggregated-with-uuid.csv
+docker cp "$csv_file1" cassandra:/countries-aggregated-filtered.csv
 
 echo "\033[1;32m\nSUCCESSFUL COPY\033[0m \n⏭️  Ready to proceed with run-cqlsh script..."
