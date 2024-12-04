@@ -19,20 +19,26 @@ while getopts "ta" opt; do
 done
 
 execute_cql() {
-    docker exec -it cassandra cqlsh -f /data.cql > /dev/null 2>&1
+    docker exec -it cassandra cqlsh -f /schema.cql > /dev/null 2>&1
 }
 
 execute_remaining_cql() {
-    # Execute the COPY command for the covid table
+    # Execute the COPY command for the covid tables
     if [ "$use_test_file" = false ]; then
-        echo "Executing COPY command..."
+        echo "Executing COPY commands..."
+
+        # INSERT FUTURE TABLES HERE
+        docker exec -it cassandra cqlsh -e "
+        COPY covid.countries_aggregated (id, date, country, confirmed, recovered, deaths) 
+        FROM '/countries-aggregated-with-uuid.csv' WITH HEADER = TRUE;"
+
         docker exec -it cassandra cqlsh -e "
         COPY covid.countries_aggregated (id, date, country, confirmed, recovered, deaths) 
         FROM '/countries-aggregated-with-uuid.csv' WITH HEADER = TRUE;"
     fi
 
     # Staring interactive session in terminal
-    echo "\033[1;32m\nSUCCESSFUL COPY\033[0m \n\n\033[1mStarting interactive CQL session...\033[0m"
+    echo "\033[1;32m\nSUCCESSFUL COPY OF TABLES\033[0m \n\n\033[1mStarting interactive CQL session...\033[0m"
     docker exec -it cassandra cqlsh
 }
 
