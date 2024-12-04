@@ -3,7 +3,7 @@
 echo "🚀 \033[1;33mRUNNING CQLSH COMMANDS ON CONTAINER\033[0m\n"
 
 # Check for the test flag (-t) and auto-retry flag (-a)
-use_test_file=true
+use_test_file=false
 auto_retry=true
 while getopts "ta" opt; do
     case $opt in
