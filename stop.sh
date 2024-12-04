@@ -8,4 +8,4 @@ docker kill cassandra
 echo "Removing docker network 'cassandra'..."
 docker network rm cassandra
 
-echo "\033[1;32m\nDOCKER STOPPED\033[0m \nReady for next run..."
+echo "\033[1;32m\nDOCKER STOPPED\033[0m \n⏭️  Ready for next run..."
