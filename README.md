@@ -28,7 +28,7 @@ We found the Docker setup is the easiest to configure for M1-M4 Macs. After exec
 
 The Cassandra Query Language (CQL) can be run from either the terminal, VSCode, or other external DB software providers. We use a mix of the two mentioned, but also RazorSQL, which has native support for Cassandra.
 
-The connection string for these services uses IP 127.0.0.1 and port 9042. When running [run-db-in-shell.sh](http://run-db-in-shell.sh), you might encounter this error message:
+The connection string for these services uses IP 127.0.0.1 and port 9042. When running `run-db-in-shell.sh`, you might encounter this error message:
 
 ```
 Connection error: ('Unable to connect to any servers', {'127.0.0.1:9042': ConnectionRefusedError(111, "Tried connecting to [('127.0.0.1', 9042)]. Last error: Connection refused")})
