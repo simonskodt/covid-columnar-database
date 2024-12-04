@@ -35,16 +35,14 @@ else
     file_path="real-time-covid-data/schema.cql"
 fi
 
-csv_file="real-time-covid-data/covid-data/countries-aggregated-with-uuid.csv"
+csv_file1="real-time-covid-data/covid-data/countries-aggregated.csv"
+csv_file2="real-time-covid-data/covid-data/countries-aggregated-with-uuid.csv"
 
 # Check is cassandra docker container exists
 if [ -z "$(docker ps -q -f name=cassandra)" ]; then
     echo "Cassandra container is not running. Starting a new one..."
     docker run --rm -d --name cassandra \
         --hostname cassandra --network cassandra -p 9042:9042 cassandra
-        # Mounting did not work
-        # -v $(pwd)/$csv_file:/mnt/countries-aggregated-with-uuid.csv \
-        # -v $(pwd)/$file_path:/mnt/data.cql cassandra
     echo "Cassandra has started."
 else
     echo "Cassandra container is already running."
@@ -54,6 +52,7 @@ fi
 # Copy file into container
 echo "\033[1;32m\nDOCKER NETWORK AND CONTAINER READY\033[0m \n\n\033[1mCopying files into container...\033[0m"
 docker cp "$file_path" cassandra:/schema.cql
-docker cp "$csv_file" cassandra:/countries-aggregated-with-uuid.csv
+docker cp "$csv_file1" cassandra:/countries-aggregated.csv
+docker cp "$csv_file2" cassandra:/countries-aggregated-with-uuid.csv
 
-echo "\033[1;32m\nSUCCESSFUL COPY\033[0m \n\n\033[1m⏭️  Ready to proceed with run-cqlsh script...\033[1m"
+echo "\033[1;32m\nSUCCESSFUL COPY\033[0m \n⏭️  Ready to proceed with run-cqlsh script..."
