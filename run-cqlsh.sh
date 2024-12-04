@@ -51,7 +51,7 @@ waiting_ui() {
 
 # Execute CQL file with auto-retry if enabled
 if [ "$auto_retry" = true ]; then
-    echo "\033[1;33mAuto-retry enabled. Trying to connect...\033[0m"
+    echo "\033[1;33mAuto-retry enabled. Trying to connect...\033[0m\n"
     waiting_ui &
     ui_pid=$!
     while ! execute_cql; do
