@@ -33,8 +33,12 @@ execute_remaining_cql() {
         FROM '/countries-aggregated-with-uuid.csv' WITH HEADER = TRUE;"
 
         docker exec -it cassandra cqlsh -e "
-        COPY covid.countries_aggregated (id, date, country, confirmed, recovered, deaths) 
-        FROM '/countries-aggregated-with-uuid.csv' WITH HEADER = TRUE;"
+        COPY covid.countries_aggregated_by_country (date, country, confirmed, recovered, deaths) 
+        FROM '/countries-aggregated.csv' WITH HEADER = TRUE;"
+
+        docker exec -it cassandra cqlsh -e "
+        COPY covid.total_confirmed_by_country (country, confirmed) 
+        FROM '/countries-aggregated.csv' WITH HEADER = TRUE;"
     fi
 
     # Staring interactive session in terminal
