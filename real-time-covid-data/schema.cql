@@ -21,9 +21,16 @@ CREATE TABLE IF NOT EXISTS covid.countries_aggregated_by_country (
     PRIMARY KEY (country, date)
 );
 
-CREATE TABLE IF NOT EXISTS covid.total_confirmed_by_country (
+CREATE TABLE IF NOT EXISTS covid.countries_aggregated_sum (
+    country TEXT PRIMARY KEY,
+    total_confirmed BIGINT,
+    total_recovered BIGINT,
+    total_deaths BIGINT
+);
+
+CREATE TABLE IF NOT EXISTS covid.countries_aggregated_sum_order_by_confirmed (
     country TEXT,
-    confirmed INT,
-    date DATE,
-    PRIMARY KEY (country)
+    total_confirmed BIGINT PRIMARY KEY,
+    total_recovered BIGINT,
+    total_deaths BIGINT,
 );

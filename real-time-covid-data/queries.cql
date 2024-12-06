@@ -2,7 +2,6 @@
 -- Basic Queries
 -- ==================================================================
 
-
 -- Select all records from table
 SELECT *
 FROM covid.countries_aggregated;
@@ -30,7 +29,6 @@ GROUP BY country;
 -- Table Aggregated by Country
 -- ==================================================================
 
-
 -- Total confirmed cases by country
 SELECT country, SUM(confirmed) AS total_confirmed
 FROM covid.countries_aggregated_by_country
@@ -51,10 +49,11 @@ ORDER BY date;
 -- Table Aggregated by Country and Confirmed
 -- ==================================================================
 
--- Top 5 highest countries with confirmed cases
-SELECT country, SUM(confirmed) AS total_confirmed
-FROM covid.countries_aggregated_by_country
-GROUP BY country
-ORDER BY total_confirmed DESC
-LIMIT 5;
+-- Countries with total confirmed, recovered, and death cases
+SELECT *
+FROM covid.countries_aggregated_sum
 
+-- Countries ordered by with total confirmed cases
+SELECT country, SUM(confirmed) AS total_confirmed
+FROM covid.countries_aggregated_sum_order_by_confirmed
+ORDER BY total_confirmed;
