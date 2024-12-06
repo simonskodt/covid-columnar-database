@@ -27,18 +27,29 @@ execute_remaining_cql() {
     if [ "$use_test_file" = false ]; then
         echo "Executing COPY commands..."
 
+        # ============================================
         # INSERT FUTURE TABLES HERE
-        docker exec -it cassandra cqlsh -e "
-        COPY covid.countries_aggregated (id, date, country, confirmed, recovered, deaths) 
-        FROM '/countries-aggregated-with-uuid.csv' WITH HEADER = TRUE;"
+        # ============================================
 
+        # covid.countries_aggregated
         docker exec -it cassandra cqlsh -e "
-        COPY covid.countries_aggregated_by_country (date, country, confirmed, recovered, deaths) 
-        FROM '/countries-aggregated.csv' WITH HEADER = TRUE;"
+            COPY covid.countries_aggregated (id, date, country, confirmed, recovered, deaths) 
+            FROM '/countries-aggregated-with-uuid.csv' WITH HEADER = TRUE;"
 
+        # countries_aggregated_by_country
         docker exec -it cassandra cqlsh -e "
-        COPY covid.total_confirmed_by_country (country, confirmed, date) 
-        FROM '/countries-aggregated-filtered.csv' WITH HEADER = TRUE;"
+            COPY covid.countries_aggregated_by_country (date, country, confirmed, recovered, deaths) 
+            FROM '/countries-aggregated.csv' WITH HEADER = TRUE;"
+
+        # countries_aggregated_sum
+        docker exec -it cassandra cqlsh -e "
+            COPY covid.countries_aggregated_sum (country, total_confirmed, total_recovered, total_deaths)
+            FROM '/countries-aggregated-sum.csv' WITH HEADER = TRUE;"
+
+        # countries_aggregated_sum_order_by_confirmed
+        docker exec -it cassandra cqlsh -e "
+            COPY covid.countries_aggregated_sum_order_by_confirmed (country, total_confirmed, total_recovered, total_deaths)
+            FROM '/countries-aggregated-sum.csv' WITH HEADER = TRUE;"
     fi
 
     # Staring interactive session in terminal
