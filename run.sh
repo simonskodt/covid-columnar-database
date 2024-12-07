@@ -46,15 +46,23 @@ else
     echo "Cassandra container is already running."
 fi
 
+csv_file_copy="real-time-covid-data/covid-data/countries-aggregated-copy.csv"
 csv_file1="real-time-covid-data/covid-data/countries-aggregated.csv"
-csv_file2="real-time-covid-data/covid-data/countries-aggregated-with-uuid.csv"
-csv_file3="real-time-covid-data/covid-data/countries-aggregated-sum.csv"
+csv_file2="real-time-covid-data/covid-data/countries-aggregated-sum.csv"
+csv_file3="real-time-covid-data/covid-data/countries-aggregated-filtered.csv"
+csv_file4="real-time-covid-data/covid-data/countries-aggregated-with-uuid.csv"
+csv_file5="real-time-covid-data/covid-data/reference-filtered.csv"
+csv_file6="real-time-covid-data/covid-data/countries-aggregated-sum-continents.csv"
 
 # Copy file into container
 echo "\033[1;32m\nDOCKER NETWORK AND CONTAINER READY\033[0m \n\n\033[1mCopying files into container...\033[0m"
 docker cp "$file_path" cassandra:/schema.cql
+docker cp "$csv_file_copy" cassandra:/countries-aggregated-copy.csv
 docker cp "$csv_file1" cassandra:/countries-aggregated.csv
-docker cp "$csv_file2" cassandra:/countries-aggregated-with-uuid.csv
-docker cp "$csv_file3" cassandra:/countries-aggregated-sum.csv
+docker cp "$csv_file2" cassandra:/countries-aggregated-sum.csv
+docker cp "$csv_file3" cassandra:/countries-aggregated-filtered.csv
+docker cp "$csv_file4" cassandra:/countries-aggregated-with-uuid.csv
+docker cp "$csv_file5" cassandra:/reference-filtered.csv
+docker cp "$csv_file6" cassandra:/countries-aggregated-sum-continents.csv
 
 echo "\033[1;32m\nSUCCESSFUL COPY\033[0m \n⏭️  Ready to proceed with run-cqlsh script..."
