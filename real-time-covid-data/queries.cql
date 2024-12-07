@@ -32,18 +32,33 @@ WHERE country IN ('Italy', 'China')
 
 -- ==================================================================
 -- 2)
--- Find the countries with the highest or lowest total of confirmed, 
--- recovered and deaths.
+-- Find total number of confirmed cases by country.
 -- ==================================================================
 
+-- For single country
+SELECT total_confirmed
+FROM covid.total_confirmed_by_country
+WHERE country = 'Sweden';
+-- 2495996
+
+-- For multiple countries (careful: on different partitions)
+SELECT country, total_confirmed
+FROM covid.total_confirmed_by_country
+WHERE country IN ('Botswana', 'Norway', 'Tunisia');
+-- Botswana	305859
+-- Norway	1419507
+-- Tunisia	1038668
+
+-- Find country with max total confirmed.
 SELECT MAX(total_confirmed) AS total_confirmed
-FROM covid.ranking_total_cases;
+FROM covid.total_confirmed_by_country;
 
 SELECT country, total_confirmed
-FROM covid.ranking_total_cases
+FROM covid.total_confirmed_by_country
 WHERE total_confirmed = 80625120; 
 -- US
 
+-- Find country with min total confirmed.
 SELECT MIN(total_confirmed) AS total_confirmed
 FROM covid.ranking_total_cases;
 
@@ -52,8 +67,33 @@ FROM covid.ranking_total_cases
 WHERE total_confirmed = 1;
 -- Micronesia
 
--- We did not manage to be able to find the max 5 countries for 
--- instance.
+-- Find 5 highest min total confirmed by country.
+SELECT total_confirmed
+FROM covid.total_confirmed_by_country
+WHERE country = 'Russia';
+
+-- ==================================================================
+-- 3)
+-- Find given number of deaths and date by country, in descending 
+-- order.
+-- ==================================================================
+
+-- Find 5 records for a country.
+SELECT date, deaths
+FROM covid.number_of_deaths_by_country
+WHERE country = 'Senegal'
+LIMIT 5;
+-- 2022-03-23	1988
+-- 2022-04-16	1965
+-- 2022-04-02	1964
+-- 2022-03-10	1962
+-- 2022-03-06	1961
+
+-- Find 1 record for a country.
+SELECT date, deaths
+FROM covid.number_of_deaths_by_country
+WHERE country = 'Luxembourg' 
+LIMIT 1;
 
 -- ==================================================================
 -- 3)

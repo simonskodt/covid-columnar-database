@@ -20,17 +20,31 @@ CREATE TABLE IF NOT EXISTS covid.stats_by_country_and_timespan (
 
 -- ==================================================================
 -- 2)
--- Find the countries with the highest or lowest total of confirmed, 
--- recovered and deaths.
+-- Find total number of confirmed cases by country.
 -- ==================================================================
-DROP TABLE IF EXISTS covid.ranking_total_cases;
-CREATE TABLE IF NOT EXISTS covid.ranking_total_cases (
+DROP TABLE IF EXISTS covid.total_confirmed_by_country;
+CREATE TABLE IF NOT EXISTS covid.total_confirmed_by_country (
     country TEXT,
     total_confirmed BIGINT,
     total_recovered BIGINT,
     total_deaths BIGINT,
-    PRIMARY KEY(total_confirmed)
+    PRIMARY KEY((country), total_confirmed)
 );
+
+-- ==================================================================
+-- 3)
+-- Find given number of deaths and date by country, in descending 
+-- order.
+-- ==================================================================
+DROP TABLE IF EXISTS covid.number_of_deaths_by_country;
+CREATE TABLE IF NOT EXISTS covid.number_of_deaths_by_country (
+    date DATE,
+    country TEXT,
+    confirmed INT,
+    recovered INT,
+    deaths INT,
+    PRIMARY KEY((country), deaths)
+)  WITH CLUSTERING ORDER BY (deaths DESC);
 
 -- ==================================================================
 -- 3)
