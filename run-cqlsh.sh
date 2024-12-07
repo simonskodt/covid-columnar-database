@@ -56,9 +56,9 @@ execute_remaining_cql() {
             COPY covid.province_info_by_admin2 (uid, iso3, admin2, province_state, lat, long, population) 
             FROM '/reference-filtered.csv' WITH HEADER = TRUE;"
 
-        # 5) countries_by_continents
+        # 5) country_total_deaths_by_continent
         docker exec -it cassandra cqlsh -e "
-            COPY covid.countries_by_continents (continent, country, total_confirmed, total_recovered, total_deaths) 
+            COPY covid.country_total_deaths_by_continent (continent, country, total_confirmed, total_recovered, total_deaths) 
             FROM '/countries-aggregated-sum-continents.csv' WITH HEADER = TRUE;"
 
         # 6) covid_first_day

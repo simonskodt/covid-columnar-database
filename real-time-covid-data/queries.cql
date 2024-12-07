@@ -121,18 +121,21 @@ WHERE iso3 = 'USA' AND population > 20000000;
 -- Florida	    21477737
 
 -- ==================================================================
--- 4)
--- Find the overall number of deaths per country in a specific 
--- continent.
+-- 6)
+-- Find country and total number of deaths by continent.
 -- ==================================================================
 
+-- Get all deaths for European countries.
 SELECT country, total_deaths
-FROM countries_by_continents
+FROM covid.country_total_deaths_by_continent
 WHERE continent = 'Europe';
 
+-- Get the Asian countries that starting with A or B.
+-- Scuffed way, but works. Indexes would have been preferred.
 SELECT country, total_deaths
-FROM countries_by_continents
-WHERE continent = 'Asia';
+FROM covid.country_total_deaths_by_continent
+WHERE continent = 'Asia'
+        AND country >= 'A' AND country < 'C';
 
 -- ==================================================================
 -- 5)

@@ -84,18 +84,27 @@ CREATE TABLE IF NOT EXISTS covid.province_info_by_admin2 (
 --      If admin2 was empty, the value 0.
 
 -- ==================================================================
--- 4)
--- Find the continent with the least overall number of deaths.
+-- 6)
+-- Find country and total number of deaths by continent.
 -- ==================================================================
-DROP TABLE IF EXISTS covid.countries_by_continents;
-CREATE TABLE IF NOT EXISTS covid.countries_by_continents (
+DROP TABLE IF EXISTS covid.country_total_deaths_by_continent;
+CREATE TABLE IF NOT EXISTS covid.country_total_deaths_by_continent (
     continent TEXT,
     country TEXT,
     total_confirmed BIGINT,
     total_recovered BIGINT,
     total_deaths BIGINT,
-    PRIMARY KEY(continent, country, total_deaths)
+    PRIMARY KEY((continent), country)
 );
+
+-- N.B: None of these two indexes worked, SASI need imports, that we
+-- do not want to spend time on.
+
+-- i) Secondary index on country.
+-- CREATE INDEX IF NOT EXISTS covid.country_total_deaths_by_continent ON covid.country_total_deaths_by_continent (country);
+-- ii) SASI index for like operation on countries.
+-- CREATE CUSTOM INDEX IF NOT EXISTS country_index ON covid.country_total_deaths_by_continent (country)
+-- USING 'org.apache.cassandra.index.sasi.SASIIndex';
 
 -- ==================================================================
 -- 5)
