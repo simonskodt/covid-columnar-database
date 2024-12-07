@@ -138,21 +138,23 @@ WHERE continent = 'Asia'
         AND country >= 'A' AND country < 'C';
 
 -- ==================================================================
--- 5)
--- Find the first day that a country experienced Covid-19.
+-- 7)
+-- Find the dates of the first X days with confirmed Covid-19 by 
+-- country, in ascending date order.
 -- ==================================================================
 
-SELECT country, confirmed, date
-FROM covid.covid_first_day
+SELECT date
+FROM covid.first_date_confirmed_by_country
 WHERE country = 'Denmark' AND confirmed > 0
 LIMIT 1;
 -- 2020-02-27
 
-SELECT country, confirmed, date
-FROM covid.covid_first_day
+SELECT date
+FROM covid.first_date_confirmed_by_country
 WHERE country = 'Turkey' AND confirmed > 0
-LIMIT 1;
+LIMIT 2;
 -- 2020-03-11
+-- 2020-03-12
 
 -- ==================================================================
 -- 6)

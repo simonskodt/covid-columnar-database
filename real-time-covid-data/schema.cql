@@ -96,7 +96,6 @@ CREATE TABLE IF NOT EXISTS covid.country_total_deaths_by_continent (
     total_deaths BIGINT,
     PRIMARY KEY((continent), country)
 );
-
 -- N.B: None of these two indexes worked, SASI need imports, that we
 -- do not want to spend time on.
 
@@ -107,18 +106,19 @@ CREATE TABLE IF NOT EXISTS covid.country_total_deaths_by_continent (
 -- USING 'org.apache.cassandra.index.sasi.SASIIndex';
 
 -- ==================================================================
--- 5)
--- Find the first day that a country experienced Covid-19.
+-- 7)
+-- Find the dates of the first X days with confirmed Covid-19 by 
+-- country, in ascending date order.
 -- ==================================================================
-DROP TABLE IF EXISTS covid.covid_first_day;
-CREATE TABLE IF NOT EXISTS covid.covid_first_day (
+DROP TABLE IF EXISTS covid.first_date_confirmed_by_country;
+CREATE TABLE IF NOT EXISTS covid.first_date_confirmed_by_country (
     date DATE,
     country TEXT,
     confirmed INT,
     recovered INT,
     deaths INT,
-    PRIMARY KEY(country, confirmed, date)
-);
+    PRIMARY KEY((country), confirmed, date)
+) WITH CLUSTERING ORDER BY (confirmed ASC, date ASC);
 
 -- ==================================================================
 -- 6)
