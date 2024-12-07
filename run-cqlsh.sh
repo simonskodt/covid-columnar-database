@@ -66,17 +66,22 @@ execute_remaining_cql() {
             COPY covid.first_date_confirmed_by_country (date, country, confirmed, recovered, deaths) 
             FROM '/countries-aggregated.csv' WITH HEADER = TRUE;"
 
-        # 7) highest_daily_recovered
+        # 8i) highest_recovered_by_country
         docker exec -it cassandra cqlsh -e "
-            COPY covid.highest_daily_recovered (date, country, total_recovered) 
+            COPY covid.highest_recovered_by_country (date, country, total_recovered) 
             FROM '/countries-aggregated-max-recovered.csv' WITH HEADER = TRUE;"
 
-        # 8) worldwide_month
+        # 8ii) highest_recovered_by_country
+        docker exec -it cassandra cqlsh -e "
+            COPY covid.highest_recovered_using_max_by_country (date, country, confirmed, recovered, deaths) 
+            FROM '/countries-aggregated.csv' WITH HEADER = TRUE;"
+
+        # 9) worldwide_month
         docker exec -it cassandra cqlsh -e "
             COPY covid.worldwide_with_id (id, date, confirmed, recovered, deaths, increase_rate) 
             FROM '/worldwide-aggregate-with-uuid.csv' WITH HEADER = TRUE;"
 
-        # 9) worldwide_increase_rate
+        # 10) worldwide_increase_rate
         docker exec -it cassandra cqlsh -e "
             COPY covid.worldwide_increase_rate (date, confirmed, recovered, deaths, increase_rate) 
             FROM '/worldwide-aggregate.csv' WITH HEADER = TRUE;"

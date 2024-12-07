@@ -157,17 +157,29 @@ LIMIT 2;
 -- 2020-03-12
 
 -- ==================================================================
--- 6)
--- Find the country and the associated date with the highest number 
--- of daily recovered. 
+-- 8)
+-- Find the highest number of recovered and the associated date by
+-- country.
 -- ==================================================================
 
+-- i) One version with generated total recovered dataset.
+SELECT date, total_recovered
+FROM covid.highest_recovered_by_country
+WHERE country = 'Bahamas';
+
+-- ii) Another version with plain dataset and max.
+SELECT date, MAX(recovered) AS total_recovered
+FROM covid.highest_recovered_using_max_by_country
+WHERE country = 'Bahamas';
+
+-- Finding the overall highest number of recovered for all countries.
+-- Expensive query.
 SELECT MAX(total_recovered)
-FROM covid.highest_daily_recovered;
+FROM covid.highest_recovered_by_country;
 -- 30974748
 
 SELECT date
-FROM covid.highest_daily_recovered
+FROM covid.highest_recovered_by_country
 WHERE total_recovered = 30974748;
 -- 2021-08-04	India
 

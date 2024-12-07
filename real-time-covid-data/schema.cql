@@ -121,20 +121,31 @@ CREATE TABLE IF NOT EXISTS covid.first_date_confirmed_by_country (
 ) WITH CLUSTERING ORDER BY (confirmed ASC, date ASC);
 
 -- ==================================================================
--- 6)
+-- 8)
 -- Find the country and the associated date with the highest number 
 -- of daily recovered. 
 -- ==================================================================
-DROP TABLE IF EXISTS covid.highest_daily_recovered;
-CREATE TABLE IF NOT EXISTS covid.highest_daily_recovered (
+DROP TABLE IF EXISTS covid.highest_recovered_by_country;
+CREATE TABLE IF NOT EXISTS covid.highest_recovered_by_country (
     date DATE,
     country TEXT,
     total_recovered INT,
-    PRIMARY KEY(total_recovered)
+    PRIMARY KEY((country))
+);
+
+-- Using plain dataset and max.
+DROP TABLE IF EXISTS covid.highest_recovered_using_max_by_country;
+CREATE TABLE IF NOT EXISTS covid.highest_recovered_using_max_by_country (
+    date DATE,
+    country TEXT,
+    confirmed INT,
+    recovered INT,
+    deaths INT,
+    PRIMARY KEY((country), recovered)
 );
 
 -- ==================================================================
--- 7)
+-- 9)
 -- Find global entries by id and filter on the date.
 -- ==================================================================
 DROP TABLE IF EXISTS covid.worldwide_with_id;
@@ -151,7 +162,7 @@ CREATE TABLE IF NOT EXISTS covid.worldwide_with_id (
 -- WITH CLUSTERING ORDER BY (confirmed DESC);
 
 -- ==================================================================
--- 8)
+-- 10)
 -- Find the average increase rate of confirmed cases.
 -- ==================================================================
 DROP TABLE IF EXISTS covid.worldwide_increase_rate;
