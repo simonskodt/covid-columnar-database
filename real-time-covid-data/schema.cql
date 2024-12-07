@@ -3,7 +3,9 @@ CREATE KEYSPACE IF NOT EXISTS covid WITH REPLICATION = {
     'replication_factor' : '1' 
 };
 
-CREATE TABLE IF NOT EXISTS covid.countries_aggregated (
+USE covid;
+
+CREATE TABLE IF NOT EXISTS countries_aggregated (
     id UUID PRIMARY KEY,
     date DATE,
     country TEXT,
@@ -12,7 +14,7 @@ CREATE TABLE IF NOT EXISTS covid.countries_aggregated (
     deaths INT
 );
 
-CREATE TABLE IF NOT EXISTS covid.countries_aggregated_by_country (
+CREATE TABLE IF NOT EXISTS countries_aggregated_by_country (
     country TEXT,
     date DATE,
     confirmed INT,
@@ -21,14 +23,14 @@ CREATE TABLE IF NOT EXISTS covid.countries_aggregated_by_country (
     PRIMARY KEY (country, date)
 );
 
-CREATE TABLE IF NOT EXISTS covid.countries_aggregated_sum (
+CREATE TABLE IF NOT EXISTS countries_aggregated_sum (
     country TEXT PRIMARY KEY,
     total_confirmed BIGINT,
     total_recovered BIGINT,
     total_deaths BIGINT
 );
 
-CREATE TABLE IF NOT EXISTS covid.countries_aggregated_sum_order_by_confirmed (
+CREATE TABLE IF NOT EXISTS countries_aggregated_sum_order_by_confirmed (
     country TEXT,
     total_confirmed BIGINT PRIMARY KEY,
     total_recovered BIGINT,
