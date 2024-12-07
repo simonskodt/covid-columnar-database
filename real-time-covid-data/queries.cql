@@ -1,59 +1,78 @@
 -- ==================================================================
--- Basic Queries
+-- Basic Testing Queries
 -- ==================================================================
 
 -- Select all records from table
 SELECT *
-FROM countries_aggregated;
+FROM covid.date_and_country;
 
 -- Count number of records (can be compared against initial csv file)
 SELECT COUNT(*) 
-FROM countries_aggregated;
+FROM covid.date_and_country;
 
--- Afghanistan in certain days, the allow filtering is for enabling
--- filtering on non-primary key columns (worse performance)
+-- ==================================================================
+-- 1)
+-- Find certain countries and their number of confirmed, recovered 
+-- and death observations for a certain timespan.
+-- ==================================================================
+
+-- Italy in certain days
 SELECT * 
-FROM countries_aggregated
-WHERE country = 'Afghanistan' 
-		AND date >= '2020-01-22' 
-		AND date <= '2020-01-31' 
-		allow filtering;
+FROM covid.date_and_country
+WHERE country IN ('Italy')
+		AND date >= '2020-02-22'
+		AND date <= '2020-06-28';
 
--- NOT ALLOWED
--- Group by is currently only supported on of the primary key
-SELECT country, SUM(confirmed) AS total_confirmed
-FROM countries_aggregated
-GROUP BY country;
-
--- ==================================================================
--- Table Aggregated by Country
--- ==================================================================
-
--- Total confirmed cases by country
-SELECT country, SUM(confirmed) AS total_confirmed
-FROM countries_aggregated_by_country
-GROUP BY country;
-
--- Total recovered and deaths by country
-SELECT country, SUM(recovered) AS total_recovered, SUM(deaths) AS total_deaths
-FROM countries_aggregated_by_country
-GROUP BY country;
-
--- Daily cases for Denmark
-SELECT date, confirmed
-FROM countries_aggregated_by_country
-WHERE country = 'Denmark'
-ORDER BY date;
+-- China in beginning of Covid-19
+SELECT * 
+FROM covid.date_and_country
+WHERE country IN ('China') 
+	AND date <= '2020-06-28';
 
 -- ==================================================================
--- Table Aggregated by Country and Confirmed
+-- 2)
+-- Find the countries with the highest or lowest total of confirmed, 
+-- recovered and deaths.
 -- ==================================================================
 
--- Countries with total confirmed, recovered, and death cases
-SELECT *
-FROM countries_aggregated_sum
+SELECT MAX(total_confirmed) AS total_confirmed
+FROM covid.ranking_total_cases;
 
--- Countries ordered by with total confirmed cases
-SELECT country, SUM(confirmed) AS total_confirmed
-FROM countries_aggregated_sum_order_by_confirmed
-ORDER BY total_confirmed;
+SELECT country, total_confirmed
+FROM covid.ranking_total_cases
+WHERE total_confirmed = 22963151317; 
+-- US
+
+SELECT MIN(total_confirmed) AS total_confirmed
+FROM covid.ranking_total_cases;
+
+SELECT country, total_confirmed
+FROM covid.ranking_total_cases
+WHERE total_confirmed = 451; 
+-- Micronesia
+
+-- We did not manage to be able to find the max 5 countries for 
+-- instance.
+
+-- ==================================================================
+-- 3)
+-- Find the province/state, population as well as the lat and long 
+-- for all the second-level administrative division (Admin2).
+-- ==================================================================
+
+SELECT province_state, lat, long, population
+FROM covid.administrative;
+
+-- ==================================================================
+-- 4)
+-- Find the overall number of deaths per country in a specific 
+-- continent.
+-- ==================================================================
+
+SELECT country, total_deaths
+FROM countries_by_continents
+WHERE continent = 'Europe';
+
+SELECT country, total_deaths
+FROM countries_by_continents
+WHERE continent = 'Asia';
