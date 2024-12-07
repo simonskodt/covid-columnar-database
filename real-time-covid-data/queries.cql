@@ -96,13 +96,29 @@ WHERE country = 'Luxembourg'
 LIMIT 1;
 
 -- ==================================================================
--- 3)
+-- 4)
 -- Find the province/state, population as well as the lat and long 
--- for all the second-level administrative division (Admin2).
+-- by country iso3 code.
 -- ==================================================================
 
+-- Find for iso 'BRA': Brazil.
 SELECT province_state, lat, long, population
-FROM covid.administrative;
+FROM covid.reference_info_by_iso3_country_code
+WHERE iso3 = 'BRA';
+
+-- ==================================================================
+-- 5)
+-- Find the province/state and population by second-level administra-
+-- tive division (Admin2), in descending order by population.
+-- ==================================================================
+
+SELECT province_state, population
+FROM covid.reference_info_by_admin2
+WHERE iso3 = 'USA' AND population > 20000000;
+--          	329466283
+-- California	39512223
+-- Texas	    28995881
+-- Florida	    21477737
 
 -- ==================================================================
 -- 4)

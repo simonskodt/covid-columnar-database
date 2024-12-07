@@ -47,20 +47,41 @@ CREATE TABLE IF NOT EXISTS covid.number_of_deaths_by_country (
 )  WITH CLUSTERING ORDER BY (deaths DESC);
 
 -- ==================================================================
--- 3)
+-- 4)
 -- Find the province/state, population as well as the lat and long 
--- for a second-level administrative division (Admin2).
+-- by country iso3 code.
 -- ==================================================================
-DROP TABLE IF EXISTS covid.administrative;
-CREATE TABLE IF NOT EXISTS covid.administrative (
+DROP TABLE IF EXISTS covid.reference_info_by_iso3_country_code;
+CREATE TABLE IF NOT EXISTS covid.reference_info_by_iso3_country_code (
     uid INT,
+    iso3 TEXT,
     admin2 TEXT,
     province_state TEXT,
     lat DOUBLE,
     long DOUBLE,
     population BIGINT,
-    PRIMARY KEY(UID, admin2)
+    PRIMARY KEY((iso3), uid)
 );
+-- N.B: If iso3 was empty, we replace with the string 'NUL'.
+
+-- ==================================================================
+-- 5)
+-- Find the province/state and population by second-level administra-
+-- tive division (Admin2), in descending order by population.
+-- ==================================================================
+DROP TABLE IF EXISTS covid.province_info_by_admin2;
+CREATE TABLE IF NOT EXISTS covid.province_info_by_admin2 (
+    uid INT,
+    iso3 TEXT,
+    admin2 TEXT,
+    province_state TEXT,
+    lat DOUBLE,
+    long DOUBLE,
+    population BIGINT,
+    PRIMARY KEY((iso3), population, admin2)
+) WITH CLUSTERING ORDER BY (population DESC);
+-- N.B: If population was empty, we replace with 'NUL".
+--      If admin2 was empty, the value 0.
 
 -- ==================================================================
 -- 4)
