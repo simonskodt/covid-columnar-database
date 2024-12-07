@@ -46,29 +46,30 @@ execute_remaining_cql() {
             COPY covid.administrative (uid, admin2, province_state, lat, long, population) 
             FROM '/reference-filtered.csv' WITH HEADER = TRUE;"
 
-        # admin2
-        docker exec -it cassandra cqlsh -e "
-            COPY covid.administrative (uid, admin2, province_state, lat, long, population) 
-            FROM '/reference-filtered.csv' WITH HEADER = TRUE;"
-        # admin2
+        # countries_by_continents
         docker exec -it cassandra cqlsh -e "
             COPY covid.countries_by_continents (continent, country, total_confirmed, total_recovered, total_deaths) 
             FROM '/countries-aggregated-sum-continents.csv' WITH HEADER = TRUE;"
 
-        # # countries_aggregated_by_country
-        # docker exec -it cassandra cqlsh -e "
-        #     COPY countries_aggregated_by_country (date, country, confirmed, recovered, deaths) 
-        #     FROM '/countries-aggregated.csv' WITH HEADER = TRUE;"
+        # covid_first_day
+        docker exec -it cassandra cqlsh -e "
+            COPY covid.covid_first_day (date, country, confirmed, recovered, deaths) 
+            FROM '/countries-aggregated.csv' WITH HEADER = TRUE;"
 
-        # # countries_aggregated_sum
-        # docker exec -it cassandra cqlsh -e "
-        #     COPY countries_aggregated_sum (country, total_confirmed, total_recovered, total_deaths)
-        #     FROM '/countries-aggregated-sum.csv' WITH HEADER = TRUE;"
+        # highest_daily_recovered
+        docker exec -it cassandra cqlsh -e "
+            COPY covid.highest_daily_recovered (date, country, total_recovered) 
+            FROM '/countries-aggregated-max-recovered.csv' WITH HEADER = TRUE;"
 
-        # # countries_aggregated_sum_order_by_confirmed
-        # docker exec -it cassandra cqlsh -e "
-        #     COPY countries_aggregated_sum_order_by_confirmed (country, total_confirmed, total_recovered, total_deaths)
-        #     FROM '/countries-aggregated-sum.csv' WITH HEADER = TRUE;"
+        # worldwide_month
+        docker exec -it cassandra cqlsh -e "
+            COPY covid.worldwide_with_id (id, date, confirmed, recovered, deaths, increase_rate) 
+            FROM '/worldwide-aggregate-with-uuid.csv' WITH HEADER = TRUE;"
+
+        # 
+        docker exec -it cassandra cqlsh -e "
+            COPY covid.worldwide_increase_rate (date, confirmed, recovered, deaths, increase_rate) 
+            FROM '/worldwide-aggregate.csv' WITH HEADER = TRUE;"
     fi
 
     # Staring interactive session in terminal
