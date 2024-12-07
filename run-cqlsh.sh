@@ -31,9 +31,9 @@ execute_remaining_cql() {
         # INSERT FUTURE TABLES HERE
         # ============================================
 
-        # date_and_country
+        # stats_by_country_and_timespan
         docker exec -it cassandra cqlsh -e "
-            COPY covid.date_and_country (date, country, confirmed, recovered, deaths) 
+            COPY covid.stats_by_country_and_timespan (date, country, confirmed, recovered, deaths) 
             FROM '/countries-aggregated.csv' WITH HEADER = TRUE;"
 
         # ranking_total_cases

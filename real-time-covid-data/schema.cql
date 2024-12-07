@@ -5,17 +5,17 @@ CREATE KEYSPACE IF NOT EXISTS covid WITH REPLICATION = {
 
 -- ==================================================================
 -- 1)
--- Find certain countries and their number of confirmed, recovered 
--- and death observations for a certain timespan.
+-- Find number of confirmed, recovered, and death observations by
+-- country and certain timespan.
 -- ==================================================================
-DROP TABLE IF EXISTS covid.date_and_country;
-CREATE TABLE IF NOT EXISTS covid.date_and_country (
+DROP TABLE IF EXISTS covid.stats_by_country_and_timespan;
+CREATE TABLE IF NOT EXISTS covid.stats_by_country_and_timespan (
     date DATE,
     country TEXT,
     confirmed INT,
     recovered INT,
     deaths INT,
-    PRIMARY KEY(country, date)
+    PRIMARY KEY((country), date)
 );
 
 -- ==================================================================

@@ -4,29 +4,30 @@
 
 -- Select all records from table
 SELECT *
-FROM covid.date_and_country;
+FROM covid.stats_by_country_and_timespan;
+-- WARNING: Bad practice with * operand without where-clause
 
 -- Count number of records (can be compared against initial csv file)
 SELECT COUNT(*) 
-FROM covid.date_and_country;
+FROM covid.stats_by_country_and_timespan;
 
 -- ==================================================================
 -- 1)
--- Find certain countries and their number of confirmed, recovered 
--- and death observations for a certain timespan.
+-- Find number of confirmed, recovered, and death observations by
+-- country and certain timespan.
 -- ==================================================================
 
 -- Italy in certain days
-SELECT * 
-FROM covid.date_and_country
-WHERE country IN ('Italy')
+SELECT date, confirmed, deaths, recovered
+FROM covid.stats_by_country_and_timespan
+WHERE country = 'Italy'
 		AND date >= '2020-02-22'
 		AND date <= '2020-06-28';
 
--- China in beginning of Covid-19
-SELECT * 
-FROM covid.date_and_country
-WHERE country IN ('China') 
+-- China and Italy in beginning of Covid-19
+SELECT country, date, confirmed, deaths, recovered
+FROM covid.stats_by_country_and_timespan
+WHERE country IN ('Italy', 'China') 
 	AND date <= '2020-06-28';
 
 -- ==================================================================
