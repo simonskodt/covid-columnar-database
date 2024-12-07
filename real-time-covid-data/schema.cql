@@ -61,3 +61,64 @@ CREATE TABLE IF NOT EXISTS covid.countries_by_continents (
     total_deaths BIGINT,
     PRIMARY KEY(continent, country, total_deaths)
 );
+
+-- ==================================================================
+-- 5)
+-- Find the first day that a country experienced Covid-19.
+-- ==================================================================
+DROP TABLE IF EXISTS covid.covid_first_day;
+CREATE TABLE IF NOT EXISTS covid.covid_first_day (
+    date DATE,
+    country TEXT,
+    confirmed INT,
+    recovered INT,
+    deaths INT,
+    PRIMARY KEY(country, confirmed, date)
+);
+
+-- ==================================================================
+-- 6)
+-- Find the country and the associated date with the highest number 
+-- of daily recovered. 
+-- ==================================================================
+DROP TABLE IF EXISTS covid.highest_daily_recovered;
+CREATE TABLE IF NOT EXISTS covid.highest_daily_recovered (
+    date DATE,
+    country TEXT,
+    total_recovered INT,
+    PRIMARY KEY(total_recovered)
+);
+
+-- ==================================================================
+-- 7)
+-- Find global entries by id and filter on the date.
+-- ==================================================================
+DROP TABLE IF EXISTS covid.worldwide_with_id;
+CREATE TABLE IF NOT EXISTS covid.worldwide_with_id (
+    id UUID,
+    date DATE,
+    confirmed INT,
+    recovered INT,
+    deaths INT,
+    increase_rate DOUBLE,
+    PRIMARY KEY(id, date)
+);
+-- Not necessary because of natural ordering.
+-- WITH CLUSTERING ORDER BY (confirmed DESC);
+
+-- ==================================================================
+-- 8)
+-- Find the average increase rate of confirmed cases.
+-- ==================================================================
+DROP TABLE IF EXISTS covid.worldwide_increase_rate;
+CREATE TABLE IF NOT EXISTS covid.worldwide_increase_rate (
+    date DATE,
+    confirmed INT,
+    recovered INT,
+    deaths INT,
+    increase_rate DOUBLE,
+    PRIMARY KEY(date)
+);
+
+-- Index on increase_rate for avg calculation performance.
+CREATE INDEX ON covid.worldwide_increase_rate (increase_rate);

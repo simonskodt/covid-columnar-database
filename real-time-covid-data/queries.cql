@@ -40,7 +40,7 @@ FROM covid.ranking_total_cases;
 
 SELECT country, total_confirmed
 FROM covid.ranking_total_cases
-WHERE total_confirmed = 22963151317; 
+WHERE total_confirmed = 80625120; 
 -- US
 
 SELECT MIN(total_confirmed) AS total_confirmed
@@ -48,7 +48,7 @@ FROM covid.ranking_total_cases;
 
 SELECT country, total_confirmed
 FROM covid.ranking_total_cases
-WHERE total_confirmed = 451; 
+WHERE total_confirmed = 1;
 -- Micronesia
 
 -- We did not manage to be able to find the max 5 countries for 
@@ -76,3 +76,58 @@ WHERE continent = 'Europe';
 SELECT country, total_deaths
 FROM countries_by_continents
 WHERE continent = 'Asia';
+
+-- ==================================================================
+-- 5)
+-- Find the first day that a country experienced Covid-19.
+-- ==================================================================
+
+SELECT country, confirmed, date
+FROM covid.covid_first_day
+WHERE country = 'Denmark' AND confirmed > 0
+LIMIT 1;
+-- 2020-02-27
+
+SELECT country, confirmed, date
+FROM covid.covid_first_day
+WHERE country = 'Turkey' AND confirmed > 0
+LIMIT 1;
+-- 2020-03-11
+
+-- ==================================================================
+-- 6)
+-- Find the country and the associated date with the highest number 
+-- of daily recovered. 
+-- ==================================================================
+
+SELECT MAX(total_recovered)
+FROM covid.highest_daily_recovered;
+-- 30974748
+
+SELECT date
+FROM covid.highest_daily_recovered
+WHERE total_recovered = 30974748;
+-- 2021-08-04	India
+
+-- ==================================================================
+-- 7)
+-- Find global entries by id and filter on the date.
+-- ==================================================================
+
+SELECT date, confirmed, recovered, deaths
+FROM covid.worldwide_with_id
+WHERE id IN (1b423c48-8a3c-41d3-bfae-41a678e97a8e,
+             b3962296-6ea4-4132-9240-1854c178ad0d,
+             6b4bf98b-f94b-46e8-96d4-4c0023031837,
+             92f8fce8-bc8f-4f48-aed0-4b7cc90fc13d,
+             7d0a4e87-1aa6-4b40-b289-f96dcdc379f7)
+         AND date >= '2020-11-01' 
+         AND date <= '2020-11-30';
+
+-- ==================================================================
+-- 8)
+-- Find the average increase rate of confirmed cases.
+-- ==================================================================
+
+SELECT AVG(increase_rate)
+FROM covid.worldwide_increase_rate;
