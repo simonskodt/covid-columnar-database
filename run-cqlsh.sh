@@ -31,24 +31,24 @@ execute_remaining_cql() {
         # INSERT FUTURE TABLES HERE
         # ============================================
 
-        # covid.countries_aggregated
+        # countries_aggregated
         docker exec -it cassandra cqlsh -e "
-            COPY covid.countries_aggregated (id, date, country, confirmed, recovered, deaths) 
+            COPY countries_aggregated (id, date, country, confirmed, recovered, deaths) 
             FROM '/countries-aggregated-with-uuid.csv' WITH HEADER = TRUE;"
 
         # countries_aggregated_by_country
         docker exec -it cassandra cqlsh -e "
-            COPY covid.countries_aggregated_by_country (date, country, confirmed, recovered, deaths) 
+            COPY countries_aggregated_by_country (date, country, confirmed, recovered, deaths) 
             FROM '/countries-aggregated.csv' WITH HEADER = TRUE;"
 
         # countries_aggregated_sum
         docker exec -it cassandra cqlsh -e "
-            COPY covid.countries_aggregated_sum (country, total_confirmed, total_recovered, total_deaths)
+            COPY countries_aggregated_sum (country, total_confirmed, total_recovered, total_deaths)
             FROM '/countries-aggregated-sum.csv' WITH HEADER = TRUE;"
 
         # countries_aggregated_sum_order_by_confirmed
         docker exec -it cassandra cqlsh -e "
-            COPY covid.countries_aggregated_sum_order_by_confirmed (country, total_confirmed, total_recovered, total_deaths)
+            COPY countries_aggregated_sum_order_by_confirmed (country, total_confirmed, total_recovered, total_deaths)
             FROM '/countries-aggregated-sum.csv' WITH HEADER = TRUE;"
     fi
 
