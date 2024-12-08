@@ -58,7 +58,8 @@ FROM covid.total_confirmed_by_country;
 
 SELECT country, total_confirmed
 FROM covid.total_confirmed_by_country
-WHERE total_confirmed = 80625120; 
+WHERE total_confirmed = 80625120
+ALLOW FILTERING; -- NOT OPTIMAL
 -- US
 
 -- Find country with min total confirmed.
@@ -67,7 +68,8 @@ FROM covid.ranking_total_cases;
 
 SELECT country, total_confirmed
 FROM covid.ranking_total_cases
-WHERE total_confirmed = 1;
+WHERE total_confirmed = 1
+ALLOW FILTERING; -- NOT OPTIMAL
 -- Micronesia
 
 -- Find 5 highest min total confirmed by country.
