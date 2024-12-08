@@ -30,9 +30,9 @@ WHERE country IN ('Bahamas', 'Bahrain', 'Bangladesh', 'Morocco',
 -- Bahamas	2021-04-20	8194946
 
 -- QUERY TIME on Apple M1 Pro (16GB RAM) using the RazorDB IDE
--- Average query time (10 initial runs): 0.0744
+-- Average query time (10 initial runs): 0.0744 seconds
 
 -- 0.069, 0.048, 0.076, 0.1, 0.088, 0.034, 0.106, 0.088, 0.063, 0.072
--- Lowest observed time after many more runs: 0.02
+-- Lowest observed time after many more runs: 0.02 seconds
 -- ==================================================================
 
