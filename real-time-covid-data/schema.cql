@@ -183,4 +183,41 @@ CREATE TABLE IF NOT EXISTS covid.worldwide_increase_rate (
 -- row to be written per day. 
 
 -- Secondary index on increase_rate for avg calculation performance.
+-- We should have used the SSTable-Attached Secondary Index (SASI) or
+-- the Storage-Attached Indexing (SAI) instead of a normal secondary
+-- index. Secondary index should not really be used in Cassandra, and
+-- instead the data design should properly be done in another way.
 CREATE INDEX ON covid.worldwide_increase_rate (increase_rate);
+
+
+
+
+
+-- ==================================================================
+-- Schemas for Testing Performance
+-- ==================================================================
+
+-- Expected poor performance given query with filter on non-primary
+-- keys
+DROP TABLE IF EXISTS covid.performance_version_1;
+CREATE TABLE IF NOT EXISTS covid.performance_version_1 (
+    id UUID,
+    date DATE,
+    country TEXT,
+    confirmed INT,
+    recovered INT,
+    deaths INT,
+    PRIMARY KEY((id))
+);
+
+-- Expected better performance
+DROP TABLE IF EXISTS covid.performance_version_2;
+CREATE TABLE IF NOT EXISTS covid.performance_version_2 (
+    id UUID,
+    date DATE,
+    country TEXT,
+    confirmed INT,
+    recovered INT,
+    deaths INT,
+    PRIMARY KEY((country), confirmed)
+) WITH CLUSTERING ORDER BY (confirmed ASC);

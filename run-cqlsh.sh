@@ -85,6 +85,20 @@ execute_remaining_cql() {
         docker exec -it cassandra cqlsh -e "
             COPY covid.worldwide_increase_rate (date, confirmed, recovered, deaths, increase_rate) 
             FROM '/worldwide-aggregate.csv' WITH HEADER = TRUE;"
+
+        # ============================================
+        # Performance Testing
+        # ============================================
+
+        # perf i) performance_version_1
+        docker exec -it cassandra cqlsh -e "
+            COPY covid.performance_version_1 (id, date, country, confirmed, recovered, deaths) 
+            FROM '/countries-aggregated-with-uuid.csv' WITH HEADER = TRUE;"
+
+        # perf ii) performance_version_2
+        docker exec -it cassandra cqlsh -e "
+            COPY covid.performance_version_2 (id, date, country, confirmed, recovered, deaths) 
+            FROM '/countries-aggregated-with-uuid.csv' WITH HEADER = TRUE;"
     fi
 
     # Staring interactive session in terminal
