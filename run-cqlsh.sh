@@ -78,8 +78,8 @@ execute_remaining_cql() {
 
         # 9) worldwide_month
         docker exec -it cassandra cqlsh -e "
-            COPY covid.worldwide_with_id (id, date, confirmed, recovered, deaths, increase_rate) 
-            FROM '/worldwide-aggregate-with-uuid.csv' WITH HEADER = TRUE;"
+            COPY covid.global_stats_by_id (timeid, date, confirmed, recovered, deaths, increase_rate) 
+            FROM '/worldwide-aggregate-with-timeuuid.csv' WITH HEADER = TRUE;"
 
         # 10) worldwide_increase_rate
         docker exec -it cassandra cqlsh -e "

@@ -54,7 +54,7 @@ csv_file4="real-time-covid-data/covid-data/countries-aggregated-with-uuid.csv"
 csv_file5="real-time-covid-data/covid-data/reference-filtered.csv"
 csv_file6="real-time-covid-data/covid-data/countries-aggregated-sum-continents.csv"
 csv_file7="real-time-covid-data/covid-data/countries-aggregated-max-recovered.csv"
-csv_file8="real-time-covid-data/covid-data/worldwide-aggregate-with-uuid.csv"
+csv_file8="real-time-covid-data/covid-data/worldwide-aggregate-with-timeuuid.csv"
 csv_file9="real-time-covid-data/covid-data/worldwide-aggregate.csv"
 
 # Copy file into container
@@ -68,7 +68,7 @@ docker cp "$csv_file4" cassandra:/countries-aggregated-with-uuid.csv
 docker cp "$csv_file5" cassandra:/reference-filtered.csv
 docker cp "$csv_file6" cassandra:/countries-aggregated-sum-continents.csv
 docker cp "$csv_file7" cassandra:/countries-aggregated-max-recovered.csv
-docker cp "$csv_file8" cassandra:/worldwide-aggregate-with-uuid.csv
+docker cp "$csv_file8" cassandra:/worldwide-aggregate-with-timeuuid.csv
 docker cp "$csv_file9" cassandra:/worldwide-aggregate.csv
 
 echo "\033[1;32m\nSUCCESSFUL COPY\033[0m \n⏭️  Ready to proceed with run-cqlsh script..."

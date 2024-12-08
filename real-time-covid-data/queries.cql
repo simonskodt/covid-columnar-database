@@ -11,6 +11,9 @@ FROM covid.stats_by_country_and_timespan;
 SELECT COUNT(*) 
 FROM covid.stats_by_country_and_timespan;
 
+SELECT AVG(confirmed)
+FROM stats_by_country_and_timespan;
+
 -- ==================================================================
 -- 1)
 -- Find number of confirmed, recovered, and death observations by
@@ -173,7 +176,8 @@ FROM covid.highest_recovered_using_max_by_country
 WHERE country = 'Bahamas';
 
 -- Finding the overall highest number of recovered for all countries.
--- Expensive query.
+-- Expensive query in its general form, but this column family is not
+-- expected to have more than around 200 nodes.
 SELECT MAX(total_recovered)
 FROM covid.highest_recovered_by_country;
 -- 30974748
@@ -184,24 +188,37 @@ WHERE total_recovered = 30974748;
 -- 2021-08-04	India
 
 -- ==================================================================
--- 7)
--- Find global entries by id and filter on the date.
+-- 9)
+-- Find the global date, confirmed, recovered and deaths by id (and
+-- possible filter on dates), in ascending date order. 
 -- ==================================================================
 
+-- Search for a single id.
 SELECT date, confirmed, recovered, deaths
-FROM covid.worldwide_with_id
-WHERE id IN (1b423c48-8a3c-41d3-bfae-41a678e97a8e,
-             b3962296-6ea4-4132-9240-1854c178ad0d,
-             6b4bf98b-f94b-46e8-96d4-4c0023031837,
-             92f8fce8-bc8f-4f48-aed0-4b7cc90fc13d,
-             7d0a4e87-1aa6-4b40-b289-f96dcdc379f7)
+FROM covid.global_stats_by_id
+WHERE timeid = 49534000-46e1-11ea-adbb-07b5f1785483;
+-- 2020-02-04	23899	857	  492
+
+-- Search for multiple id in a certain date range.
+SELECT date, confirmed, recovered, deaths
+FROM covid.global_stats_by_id
+WHERE timeid IN (c70b0000-4df3-11ea-9e19-60d3d9e6fd83,
+             88d9c000-8a75-11ea-b367-d7cfcb188490,
+             289ec000-bd18-11ec-8a51-6924fdbf10c0)
          AND date >= '2020-11-01' 
          AND date <= '2020-11-30';
 
 -- ==================================================================
--- 8)
--- Find the average increase rate of confirmed cases.
+-- 10)
+-- Find increase rate of confirmed cases by date.
 -- ==================================================================
 
-SELECT AVG(increase_rate)
+SELECT increase_rate
+FROM covid.worldwide_increase_rate
+WHERE date = '2020-11-01';
+-- 0.9488934124549951
+
+-- Not good practice, but interesting to see the result.
+SELECT AVG(increase_rate) AS increase_rate
 FROM covid.worldwide_increase_rate;
+-- 1.8104079476807133

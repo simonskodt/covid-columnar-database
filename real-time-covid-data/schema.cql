@@ -146,24 +146,29 @@ CREATE TABLE IF NOT EXISTS covid.highest_recovered_using_max_by_country (
 
 -- ==================================================================
 -- 9)
--- Find global entries by id and filter on the date.
+-- Find the global date, confirmed, recovered and deaths by id (and
+-- possible filter on date), in ascending date order. 
 -- ==================================================================
-DROP TABLE IF EXISTS covid.worldwide_with_id;
-CREATE TABLE IF NOT EXISTS covid.worldwide_with_id (
-    id UUID,
+DROP TABLE IF EXISTS covid.global_stats_by_id;
+CREATE TABLE IF NOT EXISTS covid.global_stats_by_id (
+    timeid TIMEUUID,
     date DATE,
     confirmed INT,
     recovered INT,
     deaths INT,
     increase_rate DOUBLE,
-    PRIMARY KEY(id, date)
-);
--- Not necessary because of natural ordering.
--- WITH CLUSTERING ORDER BY (confirmed DESC);
+    PRIMARY KEY((timeid), date)
+) WITH CLUSTERING ORDER BY (date ASC);
+-- Not necessary because of natural ordering, but best practice for
+-- future inserts.
+
+-- The TIMEUUID is simply another common way of encoding a unique id
+-- for a row. It allows for both capturing uniqueness and time, and 
+-- can be inserted with simple functions like now()
 
 -- ==================================================================
 -- 10)
--- Find the average increase rate of confirmed cases.
+-- Find increase rate of confirmed cases by date.
 -- ==================================================================
 DROP TABLE IF EXISTS covid.worldwide_increase_rate;
 CREATE TABLE IF NOT EXISTS covid.worldwide_increase_rate (
@@ -172,8 +177,10 @@ CREATE TABLE IF NOT EXISTS covid.worldwide_increase_rate (
     recovered INT,
     deaths INT,
     increase_rate DOUBLE,
-    PRIMARY KEY(date)
+    PRIMARY KEY((date))
 );
+-- Date is in this time series data ensured to be unique with a single
+-- row to be written per day. 
 
--- Index on increase_rate for avg calculation performance.
+-- Secondary index on increase_rate for avg calculation performance.
 CREATE INDEX ON covid.worldwide_increase_rate (increase_rate);
